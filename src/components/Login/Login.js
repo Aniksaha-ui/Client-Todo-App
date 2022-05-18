@@ -1,19 +1,48 @@
 import React, { useRef } from "react";
 import "./Login.css";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import auth from "../../firebase.init";
+import Loading from "../Shared/Loading/Loading";
+import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 const Login = () => {
+  const [signInWithEmailAndPassword, user, loading, error] =
+    useSignInWithEmailAndPassword(auth);
   const emailRef = useRef("");
   const passwordRef = useRef("");
+  const navigate = useNavigate();
+
+  if (user) {
+    navigate("/todolist");
+  }
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    alert(error.message.slice(15, 40));
+  }
 
   //for login
   const handleLogin = (e) => {
     e.preventDefault();
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    console.log(email, password);
-    // signInWithEmailAndPassword(email, password);
+
+    signInWithEmailAndPassword(email, password);
+    const getJwtToken = async () => {
+      const { data } = await axios.post("http://localhost:4000/login", {
+        email,
+      });
+      localStorage.setItem("accessToken", data.accessToken);
+    };
+    getJwtToken();
   };
 
-  const handleToggleRegister = () => {};
+  const handleToggleRegister = () => {
+    navigate("/login");
+  };
   return (
     <div className="registration-form">
       <form onSubmit={handleLogin}>

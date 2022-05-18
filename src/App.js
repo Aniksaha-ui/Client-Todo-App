@@ -4,8 +4,8 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
-import Todo from "./components/Todo/Todo";
 import Header from "./components/Shared/Header/Header";
+import MyTodo from "./components/MyTodo/MyTodo";
 
 function App() {
   return (
@@ -13,12 +13,13 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Login />}></Route>
+        <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route
-          path="/todo"
+          path="/todolist"
           element={
             <RequireAuth>
-              <Todo />
+              <MyTodo />
             </RequireAuth>
           }
         ></Route>

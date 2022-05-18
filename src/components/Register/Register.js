@@ -6,6 +6,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import Loading from "../Shared/Loading/Loading";
+import axios from "axios";
 
 const Register = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
@@ -26,6 +27,13 @@ const Register = () => {
     const password = passwordRef.current.value;
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName });
+    const getJwtToken = async () => {
+      const { data } = await axios.post("http://localhost:4000/register", {
+        email,
+      });
+      localStorage.setItem("accessToken", data.accessToken);
+    };
+    await getJwtToken();
   };
 
   if (user) {
