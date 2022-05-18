@@ -1,13 +1,44 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
+import { toast } from "react-toastify";
 
 const NewTodo = () => {
   const [user] = useAuthState(auth);
+  const titleRef = useRef("");
+  const descriptionRef = useRef("");
+  const email = user.email;
 
+  const handleAddProduct = (e) => {
+    e.preventDefault();
+    const title = titleRef.current.value;
+    const description = descriptionRef.current.value;
+
+    const status = "pending";
+    const todo = {
+      title,
+      description,
+      status,
+      email,
+    };
+
+    const url = `http://localhost:4000/newtodo`;
+    fetch(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(todo),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        if (data.acknowledged) {
+          toast("Todo Insert Successfully");
+        }
+      });
+  };
   return (
     <>
-      <h3 className="text-center text-primary mt-3">Add New Product</h3>
+      <h3 className="text-center text-primary mt-3">Add New Todo</h3>
       <div className="container">
         <div className="row">
           <div className="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -16,13 +47,14 @@ const NewTodo = () => {
                 <form onSubmit={handleAddProduct}>
                   <div className="form-floating mb-3">
                     <input
-                      ref={nameRef}
+                      required
+                      ref={titleRef}
                       type="text"
                       className="form-control"
                       id="floatingPassword"
                       placeholder="Enter Product Name"
                     />
-                    <label for="floatingPassword">Enter Product Name</label>
+                    <label for="floatingPassword">Enter Title Name</label>
                   </div>
 
                   <div className="form-floating mb-3">
@@ -31,55 +63,10 @@ const NewTodo = () => {
                       type="text"
                       className="form-control"
                       id="floatingPassword"
-                      placeholder="Enter Product Description"
+                      placeholder="Enter Todo Description"
+                      required
                     />
-                    <label for="floatingPassword">
-                      Enter Product Description
-                    </label>
-                  </div>
-
-                  <div className="form-floating mb-3">
-                    <input
-                      ref={priceRef}
-                      type="text"
-                      className="form-control"
-                      id="floatingPassword"
-                      placeholder="Enter Product Price"
-                    />
-                    <label for="floatingPassword">Enter Product Price</label>
-                  </div>
-
-                  <div className="form-floating mb-3">
-                    <input
-                      ref={quantityRef}
-                      type="text"
-                      className="form-control"
-                      id="floatingPassword"
-                      placeholder="Enter Product Quantity"
-                    />
-                    <label for="floatingPassword">Enter Product Quantity</label>
-                  </div>
-
-                  <div className="form-floating mb-3">
-                    <input
-                      ref={supplierNameRef}
-                      type="text"
-                      className="form-control"
-                      id="floatingPassword"
-                      placeholder="Enter Supplier Name"
-                    />
-                    <label for="floatingPassword">Enter Supplier Name</label>
-                  </div>
-
-                  <div className="form-floating mb-3">
-                    <input
-                      ref={imageRef}
-                      type="text"
-                      className="form-control"
-                      id="floatingPassword"
-                      placeholder="Enter Image Url"
-                    />
-                    <label for="floatingPassword">Enter Image Url</label>
+                    <label for="floatingPassword">Enter Todo Description</label>
                   </div>
 
                   <div className="d-grid">
@@ -87,7 +74,7 @@ const NewTodo = () => {
                       className="btn btn-primary btn-login text-uppercase fw-bold"
                       type="submit"
                     >
-                      Add New Product
+                      Add New
                     </button>
                   </div>
                   <br />

@@ -7,6 +7,7 @@ import Header from "./components/Shared/Header/Header";
 import MyTodo from "./components/MyTodo/MyTodo";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NewTodo from "./components/NewTodo/NewTodo";
 
 function App() {
   return (
@@ -21,6 +22,14 @@ function App() {
           element={
             <RequireAuth>
               <MyTodo />
+            </RequireAuth>
+          }
+        ></Route>
+        <Route
+          path="/newtodo"
+          element={
+            <RequireAuth>
+              <NewTodo />
             </RequireAuth>
           }
         ></Route>

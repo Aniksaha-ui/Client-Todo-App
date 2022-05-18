@@ -4,6 +4,7 @@ import auth from "../../firebase.init";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const MyTodo = () => {
   const [user] = useAuthState(auth);
@@ -22,11 +23,7 @@ const MyTodo = () => {
           },
         });
         setTodo(data);
-        console.log("data is not loading");
-        console.log(data);
       } catch (err) {
-        console.log(err.response.status);
-        console.log(err.message);
         if (err.response.status === 401 || err.response.status === 403) {
           signOut(auth);
           console.log("Signout");
@@ -46,16 +43,18 @@ const MyTodo = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("data deleted", data);
+          // console.log("data deleted", data);
           const remaining = todo.filter((product) => product._id !== id);
           setTodo(remaining);
           if (data.acknowledged) {
-            alert("Data Deleted Successfully");
+            toast("Data Deleted Successfully");
           }
         });
     } else {
     }
   };
+
+  const handleUpdate = (id) => {};
 
   return (
     <div>
@@ -84,6 +83,13 @@ const MyTodo = () => {
                       className="btn-danger"
                     >
                       Delete
+                    </button>
+                    &nbsp; &nbsp;
+                    <button
+                      onClick={() => handleUpdate(todo._id)}
+                      className="btn-danger"
+                    >
+                      complete
                     </button>
                   </td>
                 </tr>
