@@ -54,7 +54,26 @@ const MyTodo = () => {
     }
   };
 
-  const handleUpdate = (id) => {};
+  const handleUpdate = (id) => {
+    const url = `http://localhost:4000/todo/${id}`;
+    const status = "completed";
+    const updatedStatus = { status };
+    fetch(url, {
+      method: "PUT",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(updatedStatus),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.acknowledged === true) {
+          console.log(data);
+          toast("Todo Status Updated");
+          // setStatus(data.status);
+        }
+      });
+  };
 
   return (
     <div>
@@ -73,7 +92,13 @@ const MyTodo = () => {
             <tbody>
               {todo.map((todo) => (
                 <tr key={todo._id}>
-                  <td>{todo.name}</td>
+                  {todo.status === "pending" ? (
+                    <td>{todo.title}</td>
+                  ) : (
+                    <td>
+                      <s>{todo.title}</s>
+                    </td>
+                  )}
                   <td>{todo.description}</td>
                   <td>{todo.status}</td>
 

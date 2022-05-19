@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import auth from "../../firebase.init";
 import Loading from "../Shared/Loading/Loading";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [createUserWithEmailAndPassword, user, loading, error] =
@@ -42,7 +43,7 @@ const Register = () => {
   }
 
   if (error) {
-    alert(error);
+    toast(error);
   }
 
   if (loading) {

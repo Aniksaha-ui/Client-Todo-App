@@ -26,38 +26,19 @@ const Header = () => {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <CustomLink
-                  className="nav-link active"
-                  aria-current="page"
-                  to="/"
-                >
-                  Home
-                </CustomLink>
-              </li>
-
-              <li className="nav-item">
-                <CustomLink className="nav-link" to="/blogs">
-                  Blogs
-                </CustomLink>
-              </li>
               {user ? (
                 <>
                   <li className="nav-item">
-                    <CustomLink className="nav-link" to="/manage">
-                      Manage Inventory
-                    </CustomLink>
-                  </li>
-                  <li className="nav-item">
-                    <CustomLink className="nav-link" to="/myItem">
-                      My Item
-                    </CustomLink>
-                  </li>
-                  <li className="nav-item">
-                    <CustomLink className="nav-link" to="/addproduct">
+                    <CustomLink className="nav-link" to="/newtodo">
                       Add New
                     </CustomLink>
                   </li>
+                  <li className="nav-item">
+                    <CustomLink className="nav-link" to="/todolist">
+                      Todo
+                    </CustomLink>
+                  </li>
+
                   <button onClick={handleLogout} className="btn btn-danger">
                     Logout
                   </button>

@@ -5,6 +5,7 @@ import auth from "../../firebase.init";
 import Loading from "../Shared/Loading/Loading";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
@@ -21,7 +22,7 @@ const Login = () => {
   }
 
   if (error) {
-    alert(error.message.slice(15, 40));
+    toast(error.message.slice(15, 40));
   }
 
   //for login
